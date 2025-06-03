@@ -6,16 +6,13 @@ import ticketBG from '../../../assets/images/ticket_bg.png';
 
 import './TicketHolographicCard.css';
 
-const CANVAS_RADIUS = 200; // same as glow (400px diameter)
-const GLOW_OPACITY_CENTER = 0.2; // opacity at the center of the holographic effect
-const GLOW_OPACITY_EDGE = 0.05; // opacity at the edge of the holographic effect
-const GLOW_OPACITY_OUTSIDE = 0.0; // opacity outside the glow radius
-const GLOW_BG_CENTER = 0.1; // opacity at the center of the CSS glow
-const GLOW_BG_EDGE = 0.05; // opacity at the edge of the CSS glow
-const BASE_LAYER_OPACITY = 0.02; // faint opacity for always-visible metal/rainbow layer
-const METAL_LAYER_HOVER_OPACITY = 0.4; // opacity for metal layer on hover
-const TICKET_BG_BASE_OPACITY = 0.05; // base opacity for ticketBG
-const TICKET_BG_GLOW_OPACITY = 0.18; // extra opacity for ticketBG under glow
+const CANVAS_RADIUS = 200;
+const METAL_LAYER_HOVER_OPACITY = 0.2;
+const TICKET_BG_BASE_OPACITY = 0.025;
+const TICKET_BG_GLOW_OPACITY = 0.18;
+const GLOW_BG_CENTER = 0.4;
+const GLOW_BG_EDGE = 0.05;
+const BASE_LAYER_OPACITY = 0.02;
 
 const TicketHolographicCard: React.FC = () => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -25,16 +22,11 @@ const TicketHolographicCard: React.FC = () => {
   const [glowStyle, setGlowStyle] = useState<React.CSSProperties>({
     opacity: 0,
   });
-  const animationRef = useRef<number | null>(null);
-  const targetTransform = useRef<string>(
-    'perspective(900px) scale(1) rotateX(0deg) rotateY(0deg)'
-  );
   const [canvasDims, setCanvasDims] = useState({ width: 0, height: 0 });
   const metalImgRef = useRef<HTMLImageElement | null>(null);
   const rainbowImgRef = useRef<HTMLImageElement | null>(null);
   const ticketBGImgRef = useRef<HTMLImageElement | null>(null);
 
-  // Load images for canvas
   useEffect(() => {
     const metalImg = new window.Image();
     metalImg.src = metalLayer;
@@ -53,7 +45,6 @@ const TicketHolographicCard: React.FC = () => {
     };
   }, []);
 
-  // Update canvas size on mount/resize
   useEffect(() => {
     const updateDims = () => {
       if (cardRef.current) {
@@ -68,59 +59,91 @@ const TicketHolographicCard: React.FC = () => {
     return () => window.removeEventListener('resize', updateDims);
   }, []);
 
-  // Smoothly animate the transform
-  const animate = () => {
+  useEffect(() => {
     const card = cardRef.current;
-    if (card) {
-      card.style.transform = targetTransform.current;
-    }
-    animationRef.current = window.requestAnimationFrame(animate);
-  };
+    if (!card) return;
+    card.style.perspective = '900px';
+    card.style.perspectiveOrigin = '50% 50%';
 
-  // Draw holographic effect on canvas
+    function handleMouseMove(e: MouseEvent) {
+      if (!card) return;
+      const elRect = card.getBoundingClientRect();
+      const x = e.clientX - elRect.x;
+      const y = e.clientY - elRect.y;
+      const midCardWidth = elRect.width / 2;
+      const midCardHeight = elRect.height / 2;
+      const angleY = -(x - midCardWidth) / 35;
+      const angleX = (y - midCardHeight) / 35;
+      card.style.transform = `perspective(900px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale(1.1)`;
+      card.style.transition = 'transform 0.15s ease-out';
+      card.style.boxShadow = `${-angleY}px ${angleX}px 20px 15px rgba(0,0,0,0.25), 0 0 20px 15px rgba(0,0,0,0.25) inset`;
+    }
+
+    function handleMouseEnter() {}
+
+    function handleMouseLeave() {
+      if (!card) return;
+      card.style.transform = `perspective(900px) rotateX(0) rotateY(0)`;
+      card.style.boxShadow =
+        '0px 0px 0px 0px rgba(0,0,0,0), 0 0 20px 15px rgba(0,0,0,0) inset';
+      card.style.transition =
+        'transform 0.5s cubic-bezier(.17,.67,.83,.67), box-shadow 0.25s';
+    }
+
+    card.addEventListener('mousemove', handleMouseMove);
+    card.addEventListener('mouseenter', handleMouseEnter);
+    card.addEventListener('mouseleave', handleMouseLeave);
+    return () => {
+      card.removeEventListener('mousemove', handleMouseMove);
+      card.removeEventListener('mouseenter', handleMouseEnter);
+      card.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
   const drawHoloLayer = (
     canvas: HTMLCanvasElement | null,
     img: HTMLImageElement | null,
     x: number,
     y: number,
     visible: boolean,
-    highlight: boolean = true // new param: should draw highlight zone
+    highlight: boolean = true
   ) => {
     if (!canvas || !img) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Always draw faint base layer
     ctx.save();
     ctx.globalAlpha = BASE_LAYER_OPACITY;
     ctx.globalCompositeOperation = 'source-over';
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     ctx.restore();
-    // Draw strong holographic effect at mouse if visible and highlight is true
     if (visible && x !== null && y !== null && highlight) {
       ctx.save();
       ctx.globalAlpha = 1;
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      // Create elliptical gradient mask
-      const ellipseRadiusX = CANVAS_RADIUS * 0.9; // horizontal radius
-      const ellipseRadiusY = CANVAS_RADIUS * 0.9; // vertical radius
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.scale(ellipseRadiusX / ellipseRadiusY, 1);
-      const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, ellipseRadiusY);
-      gradient.addColorStop(0, `rgba(255,255,255,${GLOW_OPACITY_CENTER})`);
-      gradient.addColorStop(0.7, `rgba(255,255,255,${GLOW_OPACITY_EDGE})`);
-      gradient.addColorStop(1, `rgba(255,255,255,${BASE_LAYER_OPACITY})`);
-      ctx.globalCompositeOperation = 'destination-in';
+      const radius = CANVAS_RADIUS;
+      const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+      gradient.addColorStop(
+        0,
+        `rgba(255,255,255,${METAL_LAYER_HOVER_OPACITY})`
+      );
+      gradient.addColorStop(1, `rgba(255,255,255,0)`);
+      ctx.globalCompositeOperation = 'lighter';
       ctx.beginPath();
-      ctx.ellipse(0, 0, ellipseRadiusX, ellipseRadiusY, 0, 0, 2 * Math.PI);
+      ctx.arc(x, y, radius, 0, 2 * Math.PI);
       ctx.closePath();
       ctx.fillStyle = gradient;
       ctx.fill();
       ctx.restore();
+      ctx.save();
+      ctx.globalAlpha = 0.25;
+      ctx.globalCompositeOperation = 'source-atop';
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       ctx.restore();
     }
-    // If visible and highlight is false, draw a uniform opacity overlay (for metal layer on hover)
     if (visible && !highlight) {
       ctx.save();
       ctx.globalAlpha = METAL_LAYER_HOVER_OPACITY;
@@ -130,7 +153,6 @@ const TicketHolographicCard: React.FC = () => {
     }
   };
 
-  // Draw ticketBG effect on canvas
   const drawTicketBG = (
     canvas: HTMLCanvasElement | null,
     img: HTMLImageElement | null,
@@ -142,15 +164,12 @@ const TicketHolographicCard: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // --- Draw base layer at lower opacity everywhere ---
     ctx.save();
     ctx.globalAlpha = TICKET_BG_BASE_OPACITY;
     ctx.globalCompositeOperation = 'source-over';
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     ctx.restore();
-    // --- Draw glow effect at mouse if visible, but only add extra opacity inside the circle ---
     if (visible && x !== null && y !== null) {
-      // 1. Add luminosity (white radial gradient, as before)
       ctx.save();
       ctx.globalAlpha = 1;
       const radius = CANVAS_RADIUS;
@@ -164,7 +183,6 @@ const TicketHolographicCard: React.FC = () => {
       ctx.fillStyle = gradient;
       ctx.fill();
       ctx.restore();
-      // 2. Add extra opacity (alpha) in the same area, using 'source-atop' to only affect the ticketBG
       ctx.save();
       ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = 'source-atop';
@@ -177,7 +195,6 @@ const TicketHolographicCard: React.FC = () => {
     }
   };
 
-  // Track last mouse position and hover state
   const lastMouse = useRef<{ x: number; y: number } | null>(null);
   const [isHovering, setIsHovering] = useState(false);
 
@@ -189,14 +206,6 @@ const TicketHolographicCard: React.FC = () => {
     const y = e.clientY - rect.top;
     lastMouse.current = { x, y };
     setIsHovering(true);
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((centerY - y) / centerY) * 5;
-    const rotateY = ((x - centerX) / centerX) * 5;
-    targetTransform.current = `perspective(900px) scale(1.04) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    if (!animationRef.current) {
-      animate();
-    }
     setGlowStyle({
       opacity: 1,
       left: `${x}px`,
@@ -204,9 +213,7 @@ const TicketHolographicCard: React.FC = () => {
       transform: 'translate(-50%, -50%)',
       transition: 'opacity 0.3s',
     });
-    // Draw ticketBG with glow
     drawTicketBG(ticketBGCanvasRef.current, ticketBGImgRef.current, x, y, true);
-    // Draw metal layer with uniform opacity, rainbow with highlight
     drawHoloLayer(
       metalCanvasRef.current,
       metalImgRef.current,
@@ -226,8 +233,6 @@ const TicketHolographicCard: React.FC = () => {
   };
 
   const handleMouseLeave = () => {
-    targetTransform.current =
-      'perspective(900px) scale(1) rotateX(0deg) rotateY(0deg)';
     setGlowStyle({
       ...glowStyle,
       opacity: 0,
@@ -235,7 +240,6 @@ const TicketHolographicCard: React.FC = () => {
     });
     setIsHovering(false);
     lastMouse.current = null;
-    // Only draw base layer for ticketBG
     drawTicketBG(
       ticketBGCanvasRef.current,
       ticketBGImgRef.current,
@@ -243,7 +247,6 @@ const TicketHolographicCard: React.FC = () => {
       0,
       false
     );
-    // Only draw faint base layer, no strong effect
     drawHoloLayer(
       metalCanvasRef.current,
       metalImgRef.current,
@@ -260,17 +263,8 @@ const TicketHolographicCard: React.FC = () => {
       false,
       true
     );
-    if (animationRef.current) {
-      setTimeout(() => {
-        if (animationRef.current) {
-          window.cancelAnimationFrame(animationRef.current!);
-          animationRef.current = null;
-        }
-      }, 300);
-    }
   };
 
-  // Ensure effect stays while hovering (redraw on hover state or mouse move)
   useEffect(() => {
     if (isHovering && lastMouse.current) {
       drawTicketBG(
@@ -286,7 +280,7 @@ const TicketHolographicCard: React.FC = () => {
         lastMouse.current.x,
         lastMouse.current.y,
         true,
-        false // no highlight for metal
+        false
       );
       drawHoloLayer(
         rainbowCanvasRef.current,
@@ -294,13 +288,12 @@ const TicketHolographicCard: React.FC = () => {
         lastMouse.current.x,
         lastMouse.current.y,
         true,
-        true // highlight for rainbow
+        true
       );
     }
   }, [isHovering, canvasDims.width, canvasDims.height]);
 
   useEffect(() => {
-    // On mount, clear canvases
     drawTicketBG(
       ticketBGCanvasRef.current,
       ticketBGImgRef.current,
@@ -310,12 +303,6 @@ const TicketHolographicCard: React.FC = () => {
     );
     drawHoloLayer(metalCanvasRef.current, metalImgRef.current, 0, 0, false);
     drawHoloLayer(rainbowCanvasRef.current, rainbowImgRef.current, 0, 0, false);
-    return () => {
-      if (animationRef.current) {
-        window.cancelAnimationFrame(animationRef.current);
-      }
-    };
-    // eslint-disable-next-line
   }, [canvasDims.width, canvasDims.height]);
 
   return (
@@ -345,15 +332,17 @@ const TicketHolographicCard: React.FC = () => {
         className="absolute top-0 left-0 w-full h-full object-cover rounded-md"
         style={{ zIndex: 3 }}
       />
-      {/* ticketBG as canvas */}
       <canvas
         ref={ticketBGCanvasRef}
         width={canvasDims.width}
         height={canvasDims.height}
         className="ticket-holo-card-bg absolute top-0 left-0 w-full h-full object-cover rounded-md pointer-events-none"
-        style={{ zIndex: 4, opacity: 1, transition: 'opacity 0.3s' }}
+        style={{
+          zIndex: 4,
+          opacity: isHovering ? 1 : 0,
+          transition: 'opacity 0.3s',
+        }}
       />
-      {/* metal layer and rainbow layer as canvas */}
       <canvas
         ref={metalCanvasRef}
         width={canvasDims.width}
@@ -361,7 +350,7 @@ const TicketHolographicCard: React.FC = () => {
         className="ticket-holo-card-metal absolute top-0 left-0 w-full h-full object-cover rounded-md pointer-events-none"
         style={{
           zIndex: 5,
-          opacity: isHovering ? METAL_LAYER_HOVER_OPACITY : BASE_LAYER_OPACITY,
+          opacity: isHovering ? METAL_LAYER_HOVER_OPACITY : 0,
           transition: 'opacity 0.3s',
         }}
       />
