@@ -46,6 +46,20 @@ export const componentsData: ComponentSection[] = [
 				dependencies: ["react"],
 				example: `<Alert message="Success!" type="success" />`,
 				source: `export const Alert = ({ message, type = 'success' }) => (<div className={type}>{message}</div>);`
+			},
+			{
+				name: 'Holographic Ticket',
+				type: 'card',
+				description: 'A beautiful holographic ticket card component for event or product display.',
+				props: [
+					{ property: 'title', type: 'string', default: '"Ticket Title"', description: 'Main title of the ticket.' },
+					{ property: 'subtitle', type: 'string', default: 'undefined', description: 'Optional subtitle for the ticket.' },
+					{ property: 'imageUrl', type: 'string', default: 'undefined', description: 'Optional image URL for the ticket.' },
+					{ property: 'holographic', type: 'boolean', default: 'true', description: 'Enable holographic effect.' }
+				] as ComponentParameter[],
+				dependencies: ['react'],
+				example: `<TicketHolographicCard title="VIP Pass" subtitle="Access All Areas" imageUrl="/assets/images/Ticket.png" />`,
+				source: `import TicketHolographicCard from './components/cards/TicketHolographicCard';\n\n<TicketHolographicCard title="VIP Pass" subtitle="Access All Areas" imageUrl="/assets/images/Ticket.png" />`
 			}
 		]
 	},

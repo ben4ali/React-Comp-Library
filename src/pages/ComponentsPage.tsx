@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import ComponentDetails from '../components/componentsPage/ComponentDetails';
 import ComponentsSidebar from '../components/componentsPage/ComponentsSidebar';
 import { componentsData } from '../data/componentsData';
 
 const ComponentsPage: React.FC = () => {
-  const [selected, setSelected] = useState<string>(
-    componentsData[0]?.components[0]?.name || ''
-  );
+  const { componentName } = useParams<{ componentName?: string }>();
+  const navigate = useNavigate();
   const allComponents = componentsData.flatMap(s => s.components);
-  const selectedComponent = allComponents.find(c => c.name === selected);
+  const defaultComponent = allComponents[0]?.name || '';
+  const selected = componentName || defaultComponent;
+  const selectedComponent =
+    allComponents.find(
+      c =>
+        c.name.replace(/\s+/g, '').toLowerCase() ===
+        (componentName || '').replace(/\s+/g, '').toLowerCase()
+    ) ||
+    allComponents.find(c => c.name === selected) ||
+    allComponents[0];
+
+  const handleSelect = (name: string) => {
+    navigate(`/components/${name.replace(/\s+/g, '')}`);
+  };
 
   return (
     <div className="flex">
@@ -17,8 +30,8 @@ const ComponentsPage: React.FC = () => {
           section,
           components: components.map(({ name, type }) => ({ name, type })),
         }))}
-        selected={selected}
-        onSelect={setSelected}
+        selected={selectedComponent?.name || ''}
+        onSelect={handleSelect}
       />
       {selectedComponent && <ComponentDetails component={selectedComponent} />}
     </div>

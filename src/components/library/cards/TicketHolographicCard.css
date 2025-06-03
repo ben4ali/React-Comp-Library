@@ -1,0 +1,8 @@
+.ticket-holo-card-bg {
+  opacity: 0.0025;
+	transition: all 0.5s ease-in-out;
+}
+
+.ticket-holo-card:hover .ticket-holo-card-bg {
+  opacity: 0.05;
+}

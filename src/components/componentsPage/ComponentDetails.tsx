@@ -25,7 +25,7 @@ const ComponentDetails: React.FC<Props> = ({ component }) => {
       <h2 className="text-[45px] font-semibold">{component.name}</h2>
 
       {/* Live Preview */}
-      <LivePreview component={component} />
+      <LivePreview component={component} params={params} />
 
       {/* Parameters */}
       <Parameters
