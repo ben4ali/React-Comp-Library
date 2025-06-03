@@ -1,4 +1,4 @@
-import { Github, Search } from 'lucide-react';
+import { Github, Search, Sparkle } from 'lucide-react';
 
 const Header = () => {
   return (
@@ -6,7 +6,8 @@ const Header = () => {
       <nav className="relative container mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo & App Name */}
         <div className="flex items-center gap-3">
-          <img src="/vite.svg" alt="Logo" className="h-8 w-8" />
+          <Sparkle className="h-8 w-8" />
+          {/* <img src="/vite.svg" alt="Logo" className="h-8 w-8" /> */}
           <span className="text-xl font-bold tracking-wide">App name</span>
         </div>
         {/* Search & GitHub Star */}

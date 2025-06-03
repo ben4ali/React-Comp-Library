@@ -2,7 +2,7 @@ import { Heart } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="relative w-full text-white py-4 mt-10  ">
+    <footer className="relative w-full bg-[rgb(6,6,6	)] text-white py-4 mt-[9rem]  ">
       {/* Horizontal Line */}
       <div
         className="absolute h-[0.5px] w-[90%] left-1/2 -translate-x-1/2 top-0"
@@ -11,7 +11,7 @@ const Footer = () => {
             'linear-gradient(to right, rgba(255,255,255,0), rgb(255,255,255,0.25), rgba(255,255,255,0))',
         }}
       ></div>
-      <div className="container mt-auto mx-auto flex flex-col md:flex-row items-center justify-between px-6 pt-5 gap-2 md:gap-0">
+      <div className="container mt-auto mx-[auto] w-[75%] flex flex-col md:flex-row items-center justify-between px-6 pt-5 gap-2 md:gap-0">
         {/* Made with love by names */}
         <div className="flex flex-col  gap-2 text-sm">
           <div className="flex gap-2 items-center justify-start">
