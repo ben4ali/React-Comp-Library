@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import type { Component } from '../../types/Component';
-import TicketHolographicCard from '../library/cards/TicketHolographicCard';
+import TicketHolographicCard from '../library/cards/HolographicTicket/TicketHolographicCard';
 
 interface LivePreviewProps {
   component: Component;

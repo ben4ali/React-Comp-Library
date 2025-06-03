@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import metalLayer from '../../../assets/images/metal_layer.png';
-import rainbowLayer from '../../../assets/images/rainbow_layer.png';
-import ticket from '../../../assets/images/Ticket.png';
-import ticketBG from '../../../assets/images/ticket_bg.png';
+import metalLayer from '../../../../assets/images/metal_layer.png';
+import rainbowLayer from '../../../../assets/images/rainbow_layer.png';
+import ticket from '../../../../assets/images/Ticket.png';
+import ticketBG from '../../../../assets/images/ticket_bg.png';
 
 import './TicketHolographicCard.css';
 

@@ -50,16 +50,18 @@ export const componentsData: ComponentSection[] = [
 			{
 				name: 'Holographic Ticket',
 				type: 'card',
-				description: 'A beautiful holographic ticket card component for event or product display.',
+				description: "A visually rich, interactive ticket card with a dynamic holographic effect. Features animated metal and rainbow layers, a glowing ticket background, and a 3D tilting effect based on mouse movement. All effects are rendered using canvas and CSS.",
 				props: [
-					{ property: 'title', type: 'string', default: '"Ticket Title"', description: 'Main title of the ticket.' },
-					{ property: 'subtitle', type: 'string', default: 'undefined', description: 'Optional subtitle for the ticket.' },
-					{ property: 'imageUrl', type: 'string', default: 'undefined', description: 'Optional image URL for the ticket.' },
-					{ property: 'holographic', type: 'boolean', default: 'true', description: 'Enable holographic effect.' }
-				] as ComponentParameter[],
-				dependencies: ['react'],
-				example: `<TicketHolographicCard title="VIP Pass" subtitle="Access All Areas" imageUrl="/assets/images/Ticket.png" />`,
-				source: `import TicketHolographicCard from './components/cards/TicketHolographicCard';\n\n<TicketHolographicCard title="VIP Pass" subtitle="Access All Areas" imageUrl="/assets/images/Ticket.png" />`
+					{
+						property: "className",
+						type: "string",
+						default: "",
+						description: "Optional additional class names for the card container."
+					}
+				],
+				dependencies: ["gsap"],
+				example: `<TicketHolographicCard />`,
+				source: `import TicketHolographicCard from './library/cards/HolographicTicket/TicketHolographicCard';`
 			}
 		]
 	},
