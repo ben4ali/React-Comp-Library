@@ -34,7 +34,7 @@ const Header = () => {
           className="absolute h-[0.5px] w-[90%] left-1/2 -translate-x-1/2 bottom-0"
           style={{
             background:
-              'linear-gradient(to right, rgba(255,255,255,0), rgb(255,255,255,0.5), rgba(255,255,255,0))',
+              'linear-gradient(to right, rgba(255,255,255,0), rgb(255,255,255,0.25), rgba(255,255,255,0))',
           }}
         ></div>
       </nav>
