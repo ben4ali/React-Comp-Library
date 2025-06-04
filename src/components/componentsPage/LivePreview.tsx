@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { Component } from '../../types/Component';
+import ContactCard from '../library/cards/ContactCard/ContactCard';
 import TicketHolographicCard from '../library/cards/HolographicTicket/TicketHolographicCard';
-
 interface LivePreviewProps {
   component: Component;
   params?: Record<string, string>;
@@ -10,6 +10,7 @@ interface LivePreviewProps {
 const componentMap: Record<string, FC<Record<string, unknown>>> = {
   TicketHolographicCard,
   'Holographic Ticket': TicketHolographicCard,
+  'Contact Card': ContactCard,
 };
 
 export const LivePreview: FC<LivePreviewProps> = ({ component, params }) => {

@@ -36,18 +36,6 @@ export const componentsData: ComponentSection[] = [
 		section: "Cards",
 		components: [
 			{
-				name: "Alert",
-				type: "alert",
-				description: "A simple alert message box.",
-				props: [
-					{ property: "message", type: "string", default: '""', description: "Alert message." },
-					{ property: "type", type: '"success" | "error"', default: '"success"', description: "Alert type." }
-				] as ComponentParameter[],
-				dependencies: ["react"],
-				example: `<Alert message="Success!" type="success" />`,
-				source: `export const Alert = ({ message, type = 'success' }) => (<div className={type}>{message}</div>);`
-			},
-			{
 				name: 'Holographic Ticket',
 				type: 'card',
 				description: "A visually rich, interactive ticket card with a dynamic holographic effect. Features animated metal and rainbow layers, a glowing ticket background, and a 3D tilting effect based on mouse movement. All effects are rendered using canvas and CSS.",
@@ -62,6 +50,21 @@ export const componentsData: ComponentSection[] = [
 				dependencies: ["gsap"],
 				example: `<TicketHolographicCard />`,
 				source: `import TicketHolographicCard from './library/cards/HolographicTicket/TicketHolographicCard';`
+			},
+			{
+				name: 'Contact Card',
+				type: 'card',
+				description: 'A modern contact card component displaying a user\'s avatar, name, role, followers, and posts. Includes a follow button and smooth hover effects. All props have sensible defaults but can be overridden.',
+				props: [
+					{ property: 'name', type: 'string', default: 'John Doe', description: 'Full name of the contact.' },
+					{ property: 'role', type: 'string', default: 'Software Engineer with a long title that might wrap', description: 'Role or title of the contact.' },
+					{ property: 'followers', type: 'string', default: '1.2K', description: 'Number of followers.' },
+					{ property: 'posts', type: 'string', default: '150', description: 'Number of posts.' },
+					{ property: 'avatar', type: 'string', default: 'studentAvatar', description: 'URL for the contact\'s avatar image (defaults to studentAvatar image).' }
+				],
+				dependencies: ['react', 'lucide-react'],
+				example: `<ContactCard name="Jane Doe" role="Designer" followers="2.3K" posts="210" avatar="/avatar.jpg" />`,
+				source: `import ContactCard from './library/cards/ContactCard/ContactCard';`
 			}
 		]
 	},
