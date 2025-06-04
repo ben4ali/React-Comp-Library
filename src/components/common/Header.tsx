@@ -2,6 +2,7 @@ import { Github, Search, Sparkle } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { componentsData } from '../../data/componentsData';
+import SearchOverlay from './SearchOverlay';
 
 interface HeaderProps {
   onHamburgerClick?: () => void;
@@ -22,6 +23,12 @@ const Header: React.FC<HeaderProps> = ({ onHamburgerClick }) => {
           c.description.toLowerCase().includes(searchValue.toLowerCase())
       )
     : [];
+
+  const handleResultClick = (name: string) => {
+    setSearchOpen(false);
+    setSearchValue('');
+    navigate(`/components/${name.replace(/\s+/g, '')}`);
+  };
 
   return (
     <header className="w-full text-white shadow-md">
@@ -90,73 +97,17 @@ const Header: React.FC<HeaderProps> = ({ onHamburgerClick }) => {
           }}
         ></div>
       </nav>
-      {/* Search Overlay */}
-      {searchOpen && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-start bg-black/70 backdrop-blur-sm"
-          onClick={() => {
-            setSearchOpen(false);
-            setSearchValue('');
-          }}
-        >
-          <div
-            className="w-full max-w-xl mt-24 relative"
-            onClick={e => e.stopPropagation()}
-          >
-            <input
-              autoFocus
-              type="text"
-              value={searchValue}
-              onChange={e => setSearchValue(e.target.value)}
-              onKeyUp={e =>
-                setSearchValue((e.target as HTMLInputElement).value)
-              }
-              placeholder="Search components..."
-              className="w-full text-lg md:text-2xl px-6 py-4 rounded-lg bg-neutral-900 border border-neutral-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg"
-            />
-            <button
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white text-2xl"
-              onClick={() => {
-                setSearchOpen(false);
-                setSearchValue('');
-              }}
-              aria-label="Close search"
-            >
-              &times;
-            </button>
-          </div>
-          <div
-            className="w-full max-w-xl mt-6 bg-neutral-950 rounded-lg shadow-lg overflow-y-auto max-h-[60vh]"
-            onClick={e => e.stopPropagation()}
-          >
-            {filtered.length === 0 && searchValue.trim() ? (
-              <div className="p-6 text-neutral-400 text-center">
-                No components found.
-              </div>
-            ) : (
-              filtered.map(comp => (
-                <div
-                  key={comp.name}
-                  className="p-4 border-b border-neutral-800 hover:bg-neutral-900 cursor-pointer transition-colors"
-                  onClick={() => {
-                    setSearchOpen(false);
-                    setSearchValue('');
-                    navigate(`/components/${comp.name.replace(/\s+/g, '')}`);
-                  }}
-                >
-                  <div className="font-bold text-lg text-white">
-                    {comp.name}
-                  </div>
-                  <div className="text-blue-400 text-xs mb-1">{comp.type}</div>
-                  <div className="text-neutral-300 text-sm line-clamp-2">
-                    {comp.description}
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      )}
+      <SearchOverlay
+        open={searchOpen}
+        value={searchValue}
+        onChange={setSearchValue}
+        onClose={() => {
+          setSearchOpen(false);
+          setSearchValue('');
+        }}
+        results={filtered}
+        onResultClick={handleResultClick}
+      />
     </header>
   );
 };
