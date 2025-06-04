@@ -8,7 +8,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onHamburgerClick }) => {
   return (
     <header className="w-full text-white shadow-md">
-      <nav className="relative container mx-auto flex items-center justify-between py-4 px-6">
+      <nav className="relative container mx-auto flex items-center justify-between py-6 px-6">
         {/* Logo & App Name + Hamburger */}
         <div className="flex items-center gap-3">
           {/* Hamburger for mobile */}
@@ -64,10 +64,10 @@ const Header: React.FC<HeaderProps> = ({ onHamburgerClick }) => {
         </div>
         {/* Horizontal Line */}
         <div
-          className="absolute h-[0.5px] w-[90%] left-1/2 -translate-x-1/2 bottom-0"
+          className="absolute h-[0.05rem] w-[90%] left-1/2 -translate-x-1/2 bottom-0"
           style={{
             background:
-              'linear-gradient(to right, rgba(255,255,255,0), rgb(255,255,255,0.25), rgba(255,255,255,0))',
+              'linear-gradient(to right, rgba(255,255,255,0), rgb(255,255,255,0.5), rgba(255,255,255,0))',
           }}
         ></div>
       </nav>
