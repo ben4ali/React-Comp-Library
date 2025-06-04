@@ -40,13 +40,9 @@ export const componentsData: ComponentSection[] = [
 				type: 'card',
 				description: "A visually rich, interactive ticket card with a dynamic holographic effect. Features animated metal and rainbow layers, a glowing ticket background, and a 3D tilting effect based on mouse movement. All effects are rendered using canvas and CSS.",
 				props: [
-					{
-						property: "className",
-						type: "string",
-						default: "",
-						description: "Optional additional class names for the card container."
-					}
-				],
+					{ property: 'ticket', type: 'string', default: "Ticket image", description: 'Main ticket image URL.', inputType: 'text' },
+					{ property: 'ticketBG', type: 'string', default: "Ticket background image", description: 'Ticket background image URL.', inputType: 'text' }
+				] as ComponentParameter[],
 				dependencies: ["gsap"],
 				example: `<TicketHolographicCard />`,
 				source: `import TicketHolographicCard from './library/cards/HolographicTicket/TicketHolographicCard';`

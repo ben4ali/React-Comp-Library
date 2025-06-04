@@ -21,8 +21,10 @@ const ComponentDetails: React.FC<Props> = ({ component }) => {
     );
 
   return (
-    <div className="flex-1 p-8 pr-49">
-      <h2 className="text-[45px] font-semibold">{component.name}</h2>
+    <div className="flex-1 w-full max-w-full box-border p-4 md:p-8 md:pr-24 overflow-x-auto min-w-0">
+      <h2 className="text-[2rem] md:text-[45px] font-semibold break-words">
+        {component.name}
+      </h2>
 
       {/* Live Preview */}
       <LivePreview component={component} params={params} />
@@ -36,7 +38,7 @@ const ComponentDetails: React.FC<Props> = ({ component }) => {
 
       {/* Tabs for source/example */}
       <div className="mb-6">
-        <div className="flex gap-2 mb-2">
+        <div className="flex gap-2 mb-2 flex-wrap">
           <button
             className={`px-3 py-1 rounded-t bg-neutral-900 border-b-2 ${
               tab === 'source'
@@ -58,7 +60,7 @@ const ComponentDetails: React.FC<Props> = ({ component }) => {
             Example
           </button>
         </div>
-        <div className="bg-neutral-900 border border-neutral-800 rounded p-4 text-xs font-mono whitespace-pre overflow-x-auto">
+        <div className="bg-neutral-900 border border-neutral-800 rounded p-4 text-xs font-mono whitespace-pre overflow-x-auto max-w-full">
           {tab === 'source' ? component.source : component.example}
         </div>
       </div>
