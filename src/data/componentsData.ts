@@ -96,5 +96,23 @@ export const componentsData: ComponentSection[] = [
 				source: `export const ImageBackground = ({ src, alt }) => (<div style={{ backgroundImage: \`url(\${src})\`, backgroundSize: "cover" }} aria-label={alt} />);`
 			}
 		]
+	},
+	{
+		section: "Cursors",
+		components: [
+			{
+				name: 'Black Hole Cursor',
+				type: 'cursor',
+				description: 'A 3D black hole cursor effect using Three.js and a custom shader. Includes a toggle, animated distortion, and a custom cursor that expands on click.',
+				props: [
+					{ property: 'backgroundUrl', type: 'string', default: 'Background Image', description: 'Background image URL for the effect.', inputType: 'text' },
+					{ property: 'force', type: 'number', default: '0.08', description: 'Distortion force for the black hole effect.', inputType: 'number', min: 0, max: 1, step: 0.01 },
+					{ property: 'showBlackHole', type: 'boolean', default: 'true', description: 'Show the black hole cursor.', inputType: 'checkbox' }
+				] as ComponentParameter[],
+				dependencies: ['react', 'three', 'gsap'],
+				example: `<BlackHoleCursor />`,
+				source: `import BlackHoleCursor from './library/cursors/BlackHoleCursor/BlackHoleCursor';`
+			}
+		]
 	}
 ];

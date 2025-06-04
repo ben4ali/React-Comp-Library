@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import type { Component } from '../../types/Component';
 import ContactCard from '../library/cards/ContactCard/ContactCard';
 import TicketHolographicCard from '../library/cards/HolographicTicket/TicketHolographicCard';
+import BlackHoleCursor from '../library/cursors/BlackHoleCursor/BlackHoleCursor';
 interface LivePreviewProps {
   component: Component;
   params?: Record<string, string>;
@@ -11,6 +12,7 @@ const componentMap: Record<string, FC<Record<string, unknown>>> = {
   TicketHolographicCard,
   'Holographic Ticket': TicketHolographicCard,
   'Contact Card': ContactCard,
+  'Black Hole Cursor': BlackHoleCursor,
 };
 
 export const LivePreview: FC<LivePreviewProps> = ({ component, params }) => {
