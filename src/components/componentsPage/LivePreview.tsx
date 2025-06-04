@@ -4,6 +4,7 @@ import ComicButton from '../library/buttons/ComicButton';
 import ContactCard from '../library/cards/ContactCard/ContactCard';
 import TicketHolographicCard from '../library/cards/HolographicTicket/TicketHolographicCard';
 import BlackHoleCursor from '../library/cursors/BlackHoleCursor/BlackHoleCursor';
+import MagicCursor from '../library/cursors/MagicCursor/MagicCursor';
 
 interface LivePreviewProps {
   component: Component;
@@ -16,6 +17,7 @@ const componentMap: Record<string, FC<Record<string, unknown>>> = {
   'Contact Card': ContactCard,
   'Black Hole Cursor': BlackHoleCursor,
   'Comic Button': ComicButton,
+  'Magic Cursor': MagicCursor,
 };
 
 export const LivePreview: FC<LivePreviewProps> = ({ component, params }) => {

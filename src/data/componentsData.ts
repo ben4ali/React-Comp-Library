@@ -112,6 +112,37 @@ export const componentsData: ComponentSection[] = [
         example: `<BlackHoleCursor />`,
         source: `import BlackHoleCursor from './library/cursors/BlackHoleCursor/BlackHoleCursor';`,
       },
+      {
+        name: 'Magic Cursor',
+        type: 'cursor',
+        description:
+          'A cursor that emits animated particles as you move the mouse. Highly customizable color, size, and particle count. Includes magic color variants.',
+        props: [
+          {
+            property: 'particleCount',
+            type: 'number',
+            default: '1',
+            description: 'Number of particles emitted per frame.',
+            inputType: 'number',
+            min: 1,
+            max: 10,
+            step: 1,
+          },
+          {
+            property: 'particleSize',
+            type: 'number',
+            default: '5',
+            description: 'Size of each particle in px.',
+            inputType: 'number',
+            min: 2,
+            max: 20,
+            step: 1,
+          },
+        ] as ComponentParameter[],
+        dependencies: ['react', 'gsap'],
+        example: `<ParticleCursor color="magicBlue" particleCount={1} particleSize={5} />`,
+        source: `import ParticleCursor from './library/cursors/ParticleCursor/ParticleCursor';`,
+      },
     ],
   },
   {
