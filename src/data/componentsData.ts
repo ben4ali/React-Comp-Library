@@ -173,6 +173,23 @@ export const componentsData: ComponentSection[] = [
         example: `<ComicButton label="Click me" variant="blue" />`,
         source: `import ComicButton from './library/buttons/ComicButton';`,
       },
+      {
+        name: 'Glass Button',
+        type: 'button',
+        description:
+          'A modern glassmorphic button with animated gradients, blur, and interactive shadow effects. Styled with advanced CSS for a frosted glass look.',
+        props: [
+          {
+            property: 'label',
+            type: 'string',
+            default: 'Glassy',
+            description: 'Text to display on the button.',
+          },
+        ],
+        dependencies: ['react'],
+        example: `<GlassButton label="Generate" />`,
+        source: `import GlassButton from './library/buttons/GlassButton';`,
+      },
     ],
   },
   {

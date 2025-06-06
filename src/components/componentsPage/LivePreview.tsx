@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import type { Component } from '../../types/Component';
 import ComicButton from '../library/buttons/ComicButton';
+import GlassButton from '../library/buttons/GlassButton';
 import ContactCard from '../library/cards/ContactCard/ContactCard';
 import TicketHolographicCard from '../library/cards/HolographicTicket/TicketHolographicCard';
 import BlackHoleCursor from '../library/cursors/BlackHoleCursor/BlackHoleCursor';
@@ -26,6 +27,8 @@ const componentMap: Record<string, FC<Record<string, unknown>>> = {
   'Water Mask Reveal': WaterMaskReveal,
   'Infinite Loop Text': InfiniteLoopText,
   InfiniteLoopText,
+  'Glass Button': GlassButton,
+  GlassButton,
 };
 
 export const LivePreview: FC<LivePreviewProps> = ({ component, params }) => {
