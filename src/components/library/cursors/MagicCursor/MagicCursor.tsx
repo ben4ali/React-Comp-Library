@@ -1,13 +1,13 @@
 import gsap from 'gsap';
 import React, { useEffect, useRef } from 'react';
 
-interface ParticleCursorProps {
+interface MagicCursorProps {
   color?: string;
   particleCount?: number;
   particleSize?: number;
 }
 
-const ParticleCursor: React.FC<ParticleCursorProps> = ({
+const MagicCursor: React.FC<MagicCursorProps> = ({
   color = 'rgb(179, 214, 255)',
   particleCount = 1,
   particleSize = 5,
@@ -95,4 +95,4 @@ const ParticleCursor: React.FC<ParticleCursorProps> = ({
   );
 };
 
-export default ParticleCursor;
+export default MagicCursor;

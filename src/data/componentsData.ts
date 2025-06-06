@@ -183,4 +183,50 @@ export const componentsData: ComponentSection[] = [
     section: 'Backgrounds',
     components: [],
   },
+  {
+    section: 'Effects',
+    components: [
+      {
+        name: 'Water Mask Reveal',
+        type: 'effect',
+        description:
+          'A customizable effect component that reveals content with a watercolor drop animation. Props allow control of radius speed, noise scale, and softness variation.',
+        props: [
+          {
+            property: 'radiusSpeed',
+            type: 'number',
+            default: '0.5',
+            description: 'Speed at which the reveal radius grows.',
+          },
+          {
+            property: 'noiseScale',
+            type: 'number',
+            default: '6.0',
+            description: 'Scale of the noise pattern for the mask edge.',
+          },
+          {
+            property: 'softnessVariation',
+            type: 'number',
+            default: '0.5',
+            description: 'Variation in the softness of the mask edge.',
+          },
+          {
+            property: 'imageWidth',
+            type: 'number',
+            default: '9',
+            description: 'Width of the revealed image plane.',
+          },
+          {
+            property: 'imageHeight',
+            type: 'number',
+            default: '7',
+            description: 'Height of the revealed image plane.',
+          },
+        ],
+        dependencies: ['react', 'three', '@react-three/fiber'],
+        example: `<WaterMaskReveal radiusSpeed={0.7} noiseScale={8.0} softnessVariation={0.7} imageWidth={10} imageHeight={8} />`,
+        source: `import WaterMaskReveal from './library/effects/WaterMaskReveal/WaterMaskReveal';`,
+      },
+    ],
+  },
 ];
