@@ -95,7 +95,14 @@ const WaterMaskPlane = ({
     void main() {
       vec2 uv = vUv * 2.0 - 1.0;
 
-      float radius = u_initialRadius + u_time * u_radiusSpeed;
+      // easing out sine sur le temps normalisé entre 0 et 1
+      float t = clamp(u_time / ${EFFECT_DURATION.toFixed(8)}, 0.0, 1.0);
+      float ease = sin(t * 1.57079632679); // PI/2
+
+      // rayon avec easing
+      float radius = u_initialRadius + ease * u_radiusSpeed * ${EFFECT_DURATION.toFixed(
+        8
+      )};
       float softness = u_initialSoftness + noise(uv * u_noiseScale + u_time) * u_softnessVariation;
       float mask = softCircle(uv, vec2(0.0, 0.0), radius, softness);
 
