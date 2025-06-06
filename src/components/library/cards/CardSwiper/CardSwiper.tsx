@@ -1,6 +1,6 @@
 import { DndContext, useDraggable } from '@dnd-kit/core';
-import { CSSProperties, useEffect, useRef, useState } from 'react';
-// Import all images statically
+import type { CSSProperties } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import card1 from '../../../../assets/images/MasonryCard/card_1.jpg';
 import card10 from '../../../../assets/images/MasonryCard/card_10.jpg';
 import card11 from '../../../../assets/images/MasonryCard/card_11.jpg';

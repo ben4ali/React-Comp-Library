@@ -58,7 +58,7 @@ const ComponentsSidebar: React.FC<Props> = ({
                   <button
                     className={`w-full cursor-pointer border-l border-neutral-700 text-neutral-400 text-left pl-4 py-0.25 transition-colors ${
                       selected === comp.name ? 'text-white border-white' : ''
-                    }`}
+                    } hover:text-white hover:border-white`}
                     onClick={() => {
                       onSelect(comp.name);
                       setOpen(false);
