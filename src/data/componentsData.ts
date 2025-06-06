@@ -72,6 +72,16 @@ export const componentsData: ComponentSection[] = [
         example: `<ContactCard name="Jane Doe" role="Designer" followers="2.3K" posts="210" avatar="/avatar.jpg" />`,
         source: `import ContactCard from './library/cards/ContactCard/ContactCard';`,
       },
+      {
+        name: 'Masonry Cards',
+        type: 'card',
+        description:
+          'A Pinterest-style masonry layout displaying images as cards in a responsive grid.',
+        props: [],
+        dependencies: ['react'],
+        example: `<MasonryCards />`,
+        source: `import MasonryCards from './library/cards/MasonryCards/MasonryCards';`,
+      },
     ],
   },
   {

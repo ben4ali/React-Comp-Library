@@ -6,6 +6,7 @@ import ComicButton from '../library/buttons/ComicButton/ComicButton';
 import GlassButton from '../library/buttons/GlassButton/GlassButton';
 import ContactCard from '../library/cards/ContactCard/ContactCard';
 import TicketHolographicCard from '../library/cards/HolographicTicket/TicketHolographicCard';
+import MasonryCards from '../library/cards/MasonryCards/MasonryCards';
 import BlackHoleCursor from '../library/cursors/BlackHoleCursor/BlackHoleCursor';
 import MagicCursor from '../library/cursors/MagicCursor/MagicCursor';
 import WaterMaskReveal from '../library/effects/WaterMaskReveal/WaterMaskReveal';
@@ -17,7 +18,10 @@ interface LivePreviewProps {
   params?: Record<string, string>;
 }
 
-const componentMap: Record<string, FC<Record<string, unknown>>> = {
+const componentMap: Record<
+  string,
+  FC<any /* eslint-disable-line @typescript-eslint/no-explicit-any */>
+> = {
   TicketHolographicCard,
   'Holographic Ticket': TicketHolographicCard,
   'Contact Card': ContactCard,
@@ -32,6 +36,8 @@ const componentMap: Record<string, FC<Record<string, unknown>>> = {
   GlassButton,
   'Gradient Text': GradientText,
   GradientText,
+  'Masonry Cards': MasonryCards,
+  MasonryCards,
 };
 
 export const LivePreview: FC<LivePreviewProps> = ({ component, params }) => {
