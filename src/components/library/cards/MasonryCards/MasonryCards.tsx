@@ -1,6 +1,5 @@
 import React from 'react';
 
-// Import all images statically
 import card1 from '../../../../assets/images/MasonryCard/card_1.jpg';
 import card10 from '../../../../assets/images/MasonryCard/card_10.jpg';
 import card11 from '../../../../assets/images/MasonryCard/card_11.jpg';

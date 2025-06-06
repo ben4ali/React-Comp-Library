@@ -82,6 +82,16 @@ export const componentsData: ComponentSection[] = [
         example: `<MasonryCards />`,
         source: `import MasonryCards from './library/cards/MasonryCards/MasonryCards';`,
       },
+      {
+        name: 'Card Swiper',
+        type: 'card',
+        description:
+          'A swipeable card deck. Drag the top card left or right with your mouse to send it to the back of the deck. Built with dnd-kit and supports images from the MasonryCard assets.',
+        props: [],
+        dependencies: ['react', '@dnd-kit/core'],
+        example: `<CardSwiper />`,
+        source: `import CardSwiper from './library/cards/CardSwiper/CardSwiper';`,
+      },
     ],
   },
   {

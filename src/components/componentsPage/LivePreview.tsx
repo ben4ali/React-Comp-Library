@@ -4,6 +4,7 @@ import { useState } from 'react';
 import type { Component } from '../../types/Component';
 import ComicButton from '../library/buttons/ComicButton/ComicButton';
 import GlassButton from '../library/buttons/GlassButton/GlassButton';
+import CardSwiper from '../library/cards/CardSwiper/CardSwiper';
 import ContactCard from '../library/cards/ContactCard/ContactCard';
 import TicketHolographicCard from '../library/cards/HolographicTicket/TicketHolographicCard';
 import MasonryCards from '../library/cards/MasonryCards/MasonryCards';
@@ -38,6 +39,8 @@ const componentMap: Record<
   GradientText,
   'Masonry Cards': MasonryCards,
   MasonryCards,
+  'Card Swiper': CardSwiper,
+  CardSwiper,
 };
 
 export const LivePreview: FC<LivePreviewProps> = ({ component, params }) => {
