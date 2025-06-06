@@ -9,6 +9,7 @@ import TicketHolographicCard from '../library/cards/HolographicTicket/TicketHolo
 import BlackHoleCursor from '../library/cursors/BlackHoleCursor/BlackHoleCursor';
 import MagicCursor from '../library/cursors/MagicCursor/MagicCursor';
 import WaterMaskReveal from '../library/effects/WaterMaskReveal/WaterMaskReveal';
+import GradientText from '../library/textAnimations/GradientText/GradientText';
 import InfiniteLoopText from '../library/textAnimations/InfiniteLoopText/InfiniteLoopText';
 
 interface LivePreviewProps {
@@ -29,6 +30,8 @@ const componentMap: Record<string, FC<Record<string, unknown>>> = {
   InfiniteLoopText,
   'Glass Button': GlassButton,
   GlassButton,
+  'Gradient Text': GradientText,
+  GradientText,
 };
 
 export const LivePreview: FC<LivePreviewProps> = ({ component, params }) => {

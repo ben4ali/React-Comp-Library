@@ -218,6 +218,38 @@ export const componentsData: ComponentSection[] = [
         example: `<InfiniteLoopText text="Looping text around a path!" duration={10} />`,
         source: `import InfiniteLoopText from './library/textAnimations/InfiniteLoopText/InfiniteLoopText';`,
       },
+      {
+        name: 'Gradient Text',
+        type: 'text-animation',
+        description:
+          'A text component that displays its content with a beautiful CSS gradient. Multiple gradient color variations are available as a prop.',
+        props: [
+          {
+            property: 'text',
+            type: 'string',
+            default: 'Gradient Text',
+            description: 'The text to display with the gradient.',
+          },
+          {
+            property: 'variant',
+            type: '"sunset" | "aqua" | "rainbow" | "fire" | "purple"',
+            default: 'sunset',
+            description: 'The gradient color style to use.',
+            inputType: 'select',
+            options: ['sunset', 'aqua', 'rainbow', 'fire', 'purple'],
+          },
+          {
+            property: 'animate',
+            type: 'boolean',
+            default: 'false',
+            description: 'Whether the gradient should animate.',
+            inputType: 'checkbox',
+          },
+        ],
+        dependencies: ['react'],
+        example: `<GradientText text="Gradient Text" variant="sunset" animate={true} />`,
+        source: `import GradientText from './library/textAnimations/GradientText/GradientText';`,
+      },
     ],
   },
   {

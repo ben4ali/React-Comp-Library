@@ -13,6 +13,10 @@ const ComponentDetails: React.FC<Props> = ({ component }) => {
   const [params, setParams] = useState<Record<string, string>>({});
   const [tab, setTab] = useState<'source' | 'example'>('source');
 
+  React.useEffect(() => {
+    setParams({});
+  }, [component.name]);
+
   if (!component)
     return (
       <div className="p-8 text-neutral-400">
@@ -26,17 +30,14 @@ const ComponentDetails: React.FC<Props> = ({ component }) => {
         {component.name}
       </h2>
 
-      {/* Live Preview */}
       <LivePreview component={component} params={params} />
 
-      {/* Parameters */}
       <Parameters
         props={component.props}
         params={params}
         setParams={setParams}
       />
 
-      {/* Tabs for source/example */}
       <div className="mb-6">
         <div className="flex gap-2 mb-2 flex-wrap">
           <button
@@ -65,10 +66,8 @@ const ComponentDetails: React.FC<Props> = ({ component }) => {
         </div>
       </div>
 
-      {/* Props Table */}
       <PropsTable props={component.props} />
 
-      {/* Dependencies */}
       <Dependencies dependencies={component.dependencies} />
     </div>
   );
