@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import metalLayer from '../../../../assets/images/HolographicTicket/metal_layer.png';
+import metalLayer from '../../../../assets/images/HolographicTicket/metal_layer.jpg';
 import rainbowLayer from '../../../../assets/images/HolographicTicket/rainbow_layer.png';
 import ticket from '../../../../assets/images/HolographicTicket/Ticket.png';
 import ticketBG from '../../../../assets/images/HolographicTicket/ticket_bg.png';
@@ -9,10 +9,10 @@ import './TicketHolographicCard.css';
 const CANVAS_RADIUS = 200;
 const METAL_LAYER_HOVER_OPACITY = 0.2;
 const TICKET_BG_BASE_OPACITY = 0.025;
-const TICKET_BG_GLOW_OPACITY = 0.18;
-const GLOW_BG_CENTER = 0.4;
-const GLOW_BG_EDGE = 0.05;
-const BASE_LAYER_OPACITY = 0.02;
+const TICKET_BG_GLOW_OPACITY = 0.28;
+const GLOW_BG_CENTER = 0.5;
+const GLOW_BG_EDGE = 22;
+const BASE_LAYER_OPACITY = 0.04;
 
 const TicketHolographicCard: React.FC = () => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -118,6 +118,17 @@ const TicketHolographicCard: React.FC = () => {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     ctx.restore();
     if (visible && x !== null && y !== null && highlight) {
+      const gridRows = 35;
+      const gridCols = 83;
+      const cellWidth = canvas.width / gridCols;
+      const cellHeight = canvas.height / gridRows;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const tiltVecX = (x - centerX) / centerX;
+      const tiltVecY = (y - centerY) / centerY;
+      const tiltLen = Math.sqrt(tiltVecX * tiltVecX + tiltVecY * tiltVecY);
+      const tiltNormX = tiltLen > 0.001 ? tiltVecX / tiltLen : 0;
+      const tiltNormY = tiltLen > 0.001 ? tiltVecY / tiltLen : 0;
       ctx.save();
       ctx.globalAlpha = 1;
       const radius = CANVAS_RADIUS;
@@ -125,6 +136,26 @@ const TicketHolographicCard: React.FC = () => {
       gradient.addColorStop(
         0,
         `rgba(255,255,255,${METAL_LAYER_HOVER_OPACITY})`
+      );
+      gradient.addColorStop(
+        0.4,
+        `rgba(255,255,255,${METAL_LAYER_HOVER_OPACITY * 0.5})`
+      );
+      gradient.addColorStop(
+        0.7,
+        `rgba(255,255,255,${METAL_LAYER_HOVER_OPACITY * 0.18})`
+      );
+      gradient.addColorStop(
+        0.88,
+        `rgba(255,255,255,${METAL_LAYER_HOVER_OPACITY * 0.06})`
+      );
+      gradient.addColorStop(
+        0.97,
+        `rgba(255,255,255,${METAL_LAYER_HOVER_OPACITY * 0.008})`
+      );
+      gradient.addColorStop(
+        0.995,
+        `rgba(255,255,255,${METAL_LAYER_HOVER_OPACITY * 0.003})`
       );
       gradient.addColorStop(1, `rgba(255,255,255,0)`);
       ctx.globalCompositeOperation = 'lighter';
@@ -134,6 +165,41 @@ const TicketHolographicCard: React.FC = () => {
       ctx.fillStyle = gradient;
       ctx.fill();
       ctx.restore();
+      for (let row = 0; row < gridRows; row++) {
+        for (let col = 0; col < gridCols; col++) {
+          const cellX = col * cellWidth;
+          const cellY = row * cellHeight;
+          const cellCenterX = cellX + cellWidth / 2;
+          const cellCenterY = cellY + cellHeight / 2;
+          const cellNormX = (cellCenterX - centerX) / centerX;
+          const cellNormY = (cellCenterY - centerY) / centerY;
+          const cellLen = Math.sqrt(
+            cellNormX * cellNormX + cellNormY * cellNormY
+          );
+          const cellDirX = cellLen > 0.001 ? cellNormX / cellLen : 0;
+          const cellDirY = cellLen > 0.001 ? cellNormY / cellLen : 0;
+          const dot = tiltNormX * cellDirX + tiltNormY * cellDirY;
+          let light = Math.max(0, dot);
+          const shadow = Math.max(0, -dot);
+          light = Math.pow(light, 3.5);
+          if (light > 0.01) {
+            ctx.save();
+            ctx.globalAlpha = 0.045 * light;
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.fillStyle = 'rgba(255,255,255,1)';
+            ctx.fillRect(cellX, cellY, cellWidth, cellHeight);
+            ctx.restore();
+          }
+          if (shadow > 0.01) {
+            ctx.save();
+            ctx.globalAlpha = 0.18 * shadow;
+            ctx.globalCompositeOperation = 'multiply';
+            ctx.fillStyle = 'rgba(0,0,0,1)';
+            ctx.fillRect(cellX, cellY, cellWidth, cellHeight);
+            ctx.restore();
+          }
+        }
+      }
       ctx.save();
       ctx.globalAlpha = 0.25;
       ctx.globalCompositeOperation = 'source-atop';
@@ -146,10 +212,21 @@ const TicketHolographicCard: React.FC = () => {
     }
     if (visible && !highlight) {
       ctx.save();
-      ctx.globalAlpha = METAL_LAYER_HOVER_OPACITY;
+      ctx.globalAlpha = METAL_LAYER_HOVER_OPACITY * 0.3;
       ctx.globalCompositeOperation = 'source-over';
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       ctx.restore();
+      if (x !== null && y !== null) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, CANVAS_RADIUS, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.clip();
+        ctx.globalAlpha = METAL_LAYER_HOVER_OPACITY * 1.2;
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        ctx.restore();
+      }
     }
   };
 
@@ -359,7 +436,11 @@ const TicketHolographicCard: React.FC = () => {
         width={canvasDims.width}
         height={canvasDims.height}
         className="ticket-holo-card-rainbow absolute top-0 left-0 w-full h-full object-cover rounded-md pointer-events-none"
-        style={{ zIndex: 6, opacity: 1, transition: 'opacity 0.3s' }}
+        style={{
+          zIndex: 6,
+          opacity: isHovering ? 1 : 0.95,
+          transition: 'opacity 0.3s',
+        }}
       />
     </div>
   );
