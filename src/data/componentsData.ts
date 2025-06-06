@@ -177,7 +177,31 @@ export const componentsData: ComponentSection[] = [
   },
   {
     section: 'Text Animations',
-    components: [],
+    components: [
+      {
+        name: 'Infinite Loop Text',
+        type: 'text-animation',
+        description:
+          'A text animation component that loops a phrase infinitely along a circular SVG path. The text smoothly animates around the path, creating a seamless infinite loop effect.',
+        props: [
+          {
+            property: 'text',
+            type: 'string',
+            default: 'Looping text around a path!',
+            description: 'The phrase to display looping around the path.',
+          },
+          {
+            property: 'duration',
+            type: 'number',
+            default: '10',
+            description: 'Seconds for a full loop animation.',
+          },
+        ],
+        dependencies: ['react'],
+        example: `<InfiniteLoopText text="Looping text around a path!" duration={10} />`,
+        source: `import InfiniteLoopText from './library/textAnimations/InfiniteLoopText/InfiniteLoopText';`,
+      },
+    ],
   },
   {
     section: 'Backgrounds',
