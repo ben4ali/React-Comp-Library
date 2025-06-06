@@ -1,4 +1,6 @@
+import { RotateCcwIcon } from 'lucide-react';
 import type { FC } from 'react';
+import { useState } from 'react';
 import type { Component } from '../../types/Component';
 import ComicButton from '../library/buttons/ComicButton';
 import ContactCard from '../library/cards/ContactCard/ContactCard';
@@ -28,10 +30,23 @@ export const LivePreview: FC<LivePreviewProps> = ({ component, params }) => {
     componentMap[component.name.replace(/\s+/g, '')] ||
     componentMap[component.name];
 
+  const isEffect = component.type === 'effect';
+  const [key, setKey] = useState(0);
+
   return (
-    <div className="mt-8 border border-neutral-800 rounded-lg min-h-[400px] p-6 mb-4 flex items-center justify-center">
+    <div className="relative mt-8 border border-neutral-800 rounded-lg min-h-[400px] p-6 mb-4 flex flex-col items-center justify-center">
+      {isEffect && (
+        <button
+          className="absolute cursor-pointer z-1000 bottom-5 right-5 flex items-center justify-center px-2 py-2 rounded bg-white text-black hover:bg-gray-300 transition-colors"
+          onClick={() => setKey(k => k + 1)}
+        >
+          <RotateCcwIcon className="shrink-0" />
+        </button>
+      )}
       {Comp ? (
-        <Comp {...(params || {})} />
+        <div className="w-full flex items-center justify-center">
+          <Comp key={isEffect ? key : undefined} {...(params || {})} />
+        </div>
       ) : (
         <span className="text-neutral-300">
           Live preview for <b>{component.name}</b>
