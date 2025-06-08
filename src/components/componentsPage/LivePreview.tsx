@@ -2,6 +2,7 @@ import { RotateCcwIcon } from 'lucide-react';
 import type { FC } from 'react';
 import { useState } from 'react';
 import type { Component } from '../../types/Component';
+import LiquidMetal from '../library/backgrounds/LiquidMetal/LiquidMetal';
 import ComicButton from '../library/buttons/ComicButton/ComicButton';
 import GlassButton from '../library/buttons/GlassButton/GlassButton';
 import CardSwiper from '../library/cards/CardSwiper/CardSwiper';
@@ -41,6 +42,8 @@ const componentMap: Record<
   MasonryCards,
   'Card Swiper': CardSwiper,
   CardSwiper,
+  'Liquid Metal': LiquidMetal,
+  LiquidMetal,
 };
 
 export const LivePreview: FC<LivePreviewProps> = ({ component, params }) => {
