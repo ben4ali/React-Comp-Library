@@ -32,11 +32,14 @@ const ComponentDetails: React.FC<Props> = ({ component }) => {
 
       <LivePreview component={component} params={params} />
 
-      <Parameters
-        props={component.props}
-        params={params}
-        setParams={setParams}
-      />
+      {/* Only show Parameters if there are any props */}
+      {component.props && component.props.length > 0 && (
+        <Parameters
+          props={component.props}
+          params={params}
+          setParams={setParams}
+        />
+      )}
 
       <div className="mb-6">
         <div className="flex gap-2 mb-2 flex-wrap">
@@ -66,9 +69,15 @@ const ComponentDetails: React.FC<Props> = ({ component }) => {
         </div>
       </div>
 
-      <PropsTable props={component.props} />
+      {/* Only show PropsTable if there are any props */}
+      {component.props && component.props.length > 0 && (
+        <PropsTable props={component.props} />
+      )}
 
-      <Dependencies dependencies={component.dependencies} />
+      {/* Only show Dependencies if there are any dependencies */}
+      {component.dependencies && component.dependencies.length > 0 && (
+        <Dependencies dependencies={component.dependencies} />
+      )}
     </div>
   );
 };
