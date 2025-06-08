@@ -389,7 +389,7 @@ export const componentsData: ComponentSection[] = [
             description: 'Height of the revealed image plane.',
           },
         ],
-        dependencies: ['three', '@react-three/fiber'],
+        dependencies: ['three', '@-three/fiber'],
         example: `<WaterMaskReveal radiusSpeed={0.7} noiseScale={8.0} softnessVariation={0.7} imageWidth={10} imageHeight={8} />`,
         source: `import WaterMaskReveal from './library/effects/WaterMaskReveal/WaterMaskReveal';`,
       },
